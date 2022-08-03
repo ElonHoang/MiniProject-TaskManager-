@@ -1,0 +1,49 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.example.taskmanager.mapper.TaskMapper">
+    <select id="findAll" resultType="com.example.taskmanager.model.Task">
+        SELECT * FROM task
+        <if test="pageable.paged">
+            limit #{pageable.offset}, #{pageable.pageSize}
+        </if>
+    </select>
+    <delete id="deleteTask" parameterType="Integer">
+        DELETE FROM task WHERE task_Id = ${id}
+    </delete>
+    <insert id="insertTask" >
+        INSERT INTO task(title,description,status) VALUES (#{task.title},#{task.description},#{task.status});
+    </insert>
+    <update id="updateTask">
+        UPDATE task SET title = #{task.title},
+                        description = #{task.description},
+                        status = #{task.status}
+        WHERE task_Id = #{task.id}
+    </update>
+    <select id="selectTaskById" resultType="com.example.taskmanager.model.Task" parameterType="Integer">
+        SELECT task_Id,title,description,status FROM task WHERE task_Id = ${id}
+    </select>
+
+    <select id="searchTasksByTitleAndStatus" resultType="com.example.taskmanager.model.Task">
+        SELECT task_Id,title,description,status FROM task WHERE (title LIKE #{title}|| '%') AND (status LIKE #{status}|| '%')
+        <if test="pageable.paged">
+            limit #{pageable.offset}, #{pageable.pageSize}
+        </if>
+
+    </select>
+
+    <select id="countPages" resultType="Integer">
+        SELECT COUNT(1) FROM task
+        <if test="pageable.paged">
+            limit #{pageable.offset}, #{pageable.pageSize}
+        </if>
+    </select>
+
+    <select id="searchTasksByTitle" resultType="com.example.taskmanager.model.Task">
+        SELECT task_Id,title,description,status FROM task WHERE (title LIKE '%' ||#{title}|| '%')
+
+    </select>
+
+</mapper>
+
+
