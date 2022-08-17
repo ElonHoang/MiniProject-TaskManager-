@@ -14,6 +14,7 @@
         <div>
             <button type="button" class="btn btn-primary"><a id = "linkCss" th:href="@{/all/export}" />Export CSV</button>
             <button type="button" class="btn btn-primary"><a id = "linkCss" th:href="@{/all/create-task}">Create</a></button>
+            <button type="button" class="btn btn-primary"><a id="linkCss" th:href="@{/logout}">Logout</a></button>
         </div>
 
         <form class="form-inline" style="display: flex;" th:object="${tasks}" th:action="@{/all/search}" >

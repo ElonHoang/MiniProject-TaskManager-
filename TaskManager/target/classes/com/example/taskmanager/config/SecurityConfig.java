@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -32,23 +33,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
+        @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .antMatchers("/authen/check-login","/authen/add-user","/authen/register", "/all/**", "/js/**", "/css/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/all/**").authenticated()
+                .anyRequest().permitAll()
                 .and()
-                .formLogin().loginPage("/authen/login").permitAll()
-                .defaultSuccessUrl("/all/task?success=true", true)
-                .failureUrl("/authen/login?success=false")
+                .formLogin().loginPage("/authen/login")
+                .defaultSuccessUrl("/all/tasks?success=true", true)
+                .failureUrl("/authen/login/false")
                 .usernameParameter("username")
-                .passwordParameter("password");
-        //.loginProcessingUrl("/j_spring_security_check");
-        //.and()
-        //.logout().logoutSuccessUrl("/authen/login").permitAll();
-
-
+                .passwordParameter("password")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/authen/login");
     }
+
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

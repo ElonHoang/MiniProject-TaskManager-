@@ -30,6 +30,9 @@ public class Task {
     private String description;
     @Column(name = "status")
     private TaskStatus status;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "User_id")
+    private User users;
 
     public Task() {
         this.status = TaskStatus.OPEN;

@@ -1,4 +1,3 @@
-
 function validateForm() {
     let password = document.forms["myForm"]["password"].value;
     let confirm = document.forms["myForm"]["confirmPassword"].value;

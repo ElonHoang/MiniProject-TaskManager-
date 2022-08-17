@@ -1,6 +1,6 @@
 package com.example.taskmanager.service.impl;
 
-import com.example.taskmanager.mapper.UserMapper;
+
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.UserRepository;
 
@@ -27,23 +27,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    UserMapper userMapper;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User findUser = userRepository.findByUsername(username);
-        User findUser = userMapper.findUserByUsername(username);
+        User findUser = userRepository.findByUsername(username);
         return new UserDetail(findUser);
     }
 
 
     @Override
-    public Integer createUser(User user) {
-        //return userRepository.save(user);
-        return userMapper.insertUser(user);
-
-
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
@@ -79,12 +74,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    @Override
-    public String findByPassword(String username) {
-
-        //return userRepository.findByPassword(username)
-        return userMapper.findPasswordByUsername(username);
-    }
 
 
 }

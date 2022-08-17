@@ -9,6 +9,10 @@ import java.util.Collection;
 public class UserDetail implements UserDetails {
     private User user;
 
+    public User getUser(){
+        return this.user;
+    }
+
     public UserDetail(){
         this.user  = new User();
     }
